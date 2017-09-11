@@ -14,11 +14,9 @@ function arrayToColor(rgb){
   return "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";
 }
 
-function main(){
+function render(alpha){
   var canvas = document.getElementById("viewport-main");
   var ctx = canvas.getContext('2d');
-
-  var alpha = document.getElementById("alpha");
 
   color1 = [255,0,255];
   color2 = [255,255,0];
@@ -34,5 +32,5 @@ function main(){
   ctx.fillRect(320, 200, 640, 240);
 }
 
-window.onload = main;
+window.onload = render;
 

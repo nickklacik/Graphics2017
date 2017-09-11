@@ -12,11 +12,9 @@ function valueToGray(v){
   return "rgb(" + v + "," + v + "," + v + ")";
 }
 
-function render(){
+function render(gamma){
   var canvas = document.getElementById("viewport-main");
   var ctx = canvas.getContext('2d');
-
-  var gamma = document.getElementById("gamma");
 
   RECT_WIDTH = 75;
   value = 0;
