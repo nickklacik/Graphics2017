@@ -1,0 +1,20 @@
+<!doctype html>
+<!--
+  Computer Graphics - Lab #1
+  Part B - Gamma Correction
+-->
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <script src="Lab1B.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <canvas id="viewport-main" width="1275" height="720" style="border: 1px solid black;">
+      Your browser does not support HTML5! Upgrade now, you neanderthal!
+    </canvas>
+    <br/>
+    <input id="gamma" type="range" min="0" max="10" step="0.1" value="1"
+      onchange="updateSlider(this.value)"/>
+  </body>
+</html>
+
