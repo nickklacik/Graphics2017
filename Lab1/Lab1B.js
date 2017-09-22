@@ -9,6 +9,7 @@
  */
 
 function valueToGray(v){
+	v = Math.floor(v);
   return "rgb(" + v + "," + v + "," + v + ")";
 }
 
@@ -18,10 +19,11 @@ function render(gamma){
 
   RECT_WIDTH = 75;
   value = 0;
-
+  
   rectIndex = 0;
   while (rectIndex < 17) {
-    ctx.fillStyle = valueToGray(value);
+	v = 255 * Math.pow(value/255, gamma);
+    ctx.fillStyle = valueToGray(v);
     ctx.fillRect(rectIndex * RECT_WIDTH, 0, RECT_WIDTH, canvas.height);
     rectIndex++;
     value += 16;
