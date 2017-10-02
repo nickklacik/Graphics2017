@@ -10,6 +10,7 @@
   <script id="vertex-shader" type="x-shader/x-vertex">
     attribute vec4 vPosition; // vert attribs bound to array buffer data
 	varying vec4 color; // sent down to later stages of the pipeline
+//	uniform mat4 projMat;
 	
 	void main()
 	{
@@ -18,6 +19,7 @@
 		// some per-object matrix ops now donw at app level
 		// but final matrix chain is processed here
 		gl_Position = vPosition;
+	//	gl_Position = projMat * vPosition;
 	}
   </script>
   <script id="fragment-shader" type="x-shader/x-fragment">
