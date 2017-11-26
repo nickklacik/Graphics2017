@@ -270,7 +270,7 @@ function View(colorBackground, sizeInPixels)
 		}
 
 		dx = endPos.x - startPos.x;		/* TODO (computed as usual) */ 
-		dy Math.abs(endPos.y - startPos.y);		/* TODO (computed as an absolute value; ystep takes care of direction) */
+		dy = Math.abs(endPos.y - startPos.y);		/* TODO (computed as an absolute value; ystep takes care of direction) */
 		e  = 0;		/* (no error, initially) */
 		de = dy;	/* (value to adjust error term by) */
 		y  = startPos.y;	/* (start on first endpoint's scanline) */
