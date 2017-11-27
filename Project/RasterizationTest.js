@@ -1,12 +1,17 @@
 var canvas;
 var ctx;
-var pixels = [];
+var pixels, incorrectPixelList;
 var correctPixel, incorrectPixel;
+var incorrectCheckbox;
 var black = [0, 0, 0];
 var white = [255, 255, 255];
 var red = [255, 0, 0];
 var blue = [0, 0, 255];
 var x, y, dx, dy, e, de, steep, tmp, x1, y1, x2, y2, ey;
+var points = 0;
+var totalPoints = 0;
+var pointsHTML;
+var finished = false;
 
 function arrayToColor(rgb){
   return "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";
@@ -15,25 +20,37 @@ function arrayToColor(rgb){
 function init(){
   canvas = document.getElementById("viewport-main");
   canvas.addEventListener('click', function(e) {
-	if(Math.floor((e.clientX - canvas.offsetLeft)/40) == correctPixel[0] && Math.floor((e.clientY - canvas.offsetTop)/40) == correctPixel[1]){
-	  console.log("correct");
-	  pixels.push([correctPixel[0], correctPixel[1], black]);
-	  if(x+1 >= x2)
-		console.log("finished");
-	  else
-	    findNextPixels();
-	} else if(Math.floor((e.clientX - canvas.offsetLeft)/40) == incorrectPixel[0] && Math.floor((e.clientY - canvas.offsetTop)/40) == incorrectPixel[1]){
-	  console.log("incorrect");
-	  pixels.push([incorrectPixel[0], incorrectPixel[1], red]);
-	  pixels.push([correctPixel[0], correctPixel[1], black]);
-	  if(x+1 >= x2)
-		console.log("finished");
-	  else
-	    findNextPixels();
+	if(!finished){
+	  if(Math.floor((e.clientX - canvas.offsetLeft)/40) == correctPixel[0] && Math.floor((e.clientY - canvas.offsetTop)/40) == correctPixel[1]){
+	    pixels.push([correctPixel[0], correctPixel[1]]);
+	    points++;
+	    totalPoints++;
+	    if(x+1 >= x2){
+		  finished = true;
+	    } else {
+	      findNextPixels();
+		}
+	  } else if(Math.floor((e.clientX - canvas.offsetLeft)/40) == incorrectPixel[0] && Math.floor((e.clientY - canvas.offsetTop)/40) == incorrectPixel[1]){
+	    incorrectPixelList.push([incorrectPixel[0], incorrectPixel[1]]);
+        pixels.push([correctPixel[0], correctPixel[1]]);
+        totalPoints++;
+        if(x+1 >= x2){
+	      finished = true;
+	    } else {
+	      findNextPixels();
+		}
+      }
 	}
     render();
   });
   ctx = canvas.getContext('2d');
+  pointsHTML = document.getElementById("points");
+  incorrectCheckbox = document.getElementById("incorrect");
+  pixels = [];
+  incorrectPixelList = []
+  finished = false;
+  points = 0;
+  totalPoints = 0;
   initBresenham();
   findNextPixels();
   render();
@@ -67,20 +84,32 @@ function render(){
 	drawLine(y1,x1,y2,x2);
     drawPixel(y1, x1);
     drawPixel(y2, x2);
-    drawError(oldY, x, oldY+ystep, x, oldY+oldE*ystep/dx, x);
+	if(!finished)
+      drawError(oldY, x, oldY+ystep, x, oldY+oldE*ystep/dx, x);
   } else {
     drawLine(x1,y1,x2,y2);
     drawPixel(x1, y1);
     drawPixel(x2, y2);
-    drawError(x, oldY, x, oldY+ystep, x, oldY+oldE*ystep/dx);
+	if(!finished)
+      drawError(x, oldY, x, oldY+ystep, x, oldY+oldE*ystep/dx);
   }
   
-  drawPixel(correctPixel[0], correctPixel[1], blue);
-  drawPixel(incorrectPixel[0], incorrectPixel[1], blue);
+  if(!finished){
+    drawPixel(correctPixel[0], correctPixel[1], blue);
+    drawPixel(incorrectPixel[0], incorrectPixel[1], blue);
+  }
   
   for(var i = 0; i < pixels.length; i++){
-    drawPixel(pixels[i][0], pixels[i][1], pixels[i][2]);
+    drawPixel(pixels[i][0], pixels[i][1]);
   }
+  
+  if(incorrectCheckbox.checked){
+    for(var i = 0; i < incorrectPixelList.length; i++){
+      drawPixel(incorrectPixelList[i][0], incorrectPixelList[i][1], red);
+    }
+  }
+  
+  pointsHTML.innerHTML = points + " out of " + totalPoints + " correct.";
 }
 
 function drawPixel(x, y, color = black){

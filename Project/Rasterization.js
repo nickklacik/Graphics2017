@@ -1,5 +1,6 @@
 var canvas;
 var ctx;
+var algorithmSelect;
 var lineCheckBox, rasterCheckBox, eCheckBox;
 var code;
 var line = [-1, -1, -1, -1];
@@ -38,10 +39,12 @@ function init(){
     render();
   });
   ctx = canvas.getContext('2d');
+  algorithmSelect = document.getElementById("alogorithm");
   lineCheckBox = document.getElementById("line");
   rasterCheckBox = document.getElementById("raster");
   eCheckBox = document.getElementById("e");
   code = document.getElementById("code");
+  createNewLine();
   render();
 }
 
@@ -71,8 +74,8 @@ function render(){
   
   if(lineCheckBox.checked)
     drawLine(line[0],line[1],line[2],line[3]);
-  if(rasterCheckBox.checked)
-    Bresenham(line[0],line[1],line[2],line[3]);
+
+  Bresenham(line[0],line[1],line[2],line[3]);
 
   code.innerHTML = naiveCode;
 }
@@ -99,7 +102,6 @@ function createNewLine(){
       line[2] = Math.floor(Math.random()*15)
       line[3] = Math.floor(Math.random()*10)
   } while(line[0] == line[2] && line[1] == line[3]);
-  render();
 }
 
 function Bresenham(x1, y1, x2, y2){
@@ -137,10 +139,12 @@ function Bresenham(x1, y1, x2, y2){
   }
   
   for(x = x1; x <= x2; x++){
-    if(steep){ 
-	  drawPixel(y,x); 
-	} else {
-	  drawPixel(x,y);
+	if(rasterCheckBox.checked){
+      if(steep){ 
+	    drawPixel(y,x); 
+	  } else {
+	    drawPixel(x,y);
+	  }
 	}
 	
     e = e + de;
@@ -166,6 +170,16 @@ function drawError(x1, y1, x2, y2, ex, ey){
   ctx.beginPath();
   ctx.arc(ex*40+20,ey*40+20,4,0,2*Math.PI);
   ctx.fill();
+}
+
+function checkAlgorithm(){
+  if(algorithmSelect.value == "Bresenham"){
+    eCheckBox.disabled = false;
+  } else if(algorithmSelect.value == "DDA"){
+    eCheckBox.disabled = false;
+  } else if(algorithmSelect.value == "naive"){
+    eCheckBox.disabled = true;
+  }
 }
 
 window.onload = init;
