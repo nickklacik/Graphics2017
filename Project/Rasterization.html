@@ -14,13 +14,16 @@
           <option value="Naive">Naive</option>
           <option value="DDA">DDA</option>
           <option value="Bresenham">Bresenham</option>
+		  <option value="tri">Draw Triangle</option>
         </select>
 	  </p>
-	  <p>Type: <b>Line Drawing</b></p>
+	  <p>Type: <b id="type">Line Drawing</b></p>
 	  <p><input type="checkbox" id="line" onclick="render();" checked> Show original line</p>
 	  <p><input type="checkbox" id="raster" onclick="render();" checked> Show rasterization</p>
 	  <p><input type="checkbox" id="e" onclick="render();" disabled> <span id="eText" style="color:LightGray;">Show error (Bresenham only)</span></p>
-	  <p><button onclick="createNewLine();render();">Draw New Line</button></p>
+	  <p><input type="checkbox" id="color" onclick="render();" disabled> <span id="colorText" style="color:LightGray;">Show color (Triangle only)</span></p>
+	  <p><button id="drawButton" onclick="createNew();">Draw New Line</button></p>
+	  <p>You can also draw by clicking on the pixels</p>
 	  <p><a href = "RasterizationTest.html">Try Rasterization Test</a></p>
 	</div>
 	<div id="code" style="overflow: auto; float: bottom; padding: 40px; border-style: inset;"></div>

@@ -2,7 +2,7 @@ var canvas;
 var ctx;
 var pixels, incorrectPixelList;
 var correctPixel, incorrectPixel;
-var incorrectCheckbox;
+var incorrectCheckbox, eCheckbox;
 var black = [0, 0, 0];
 var white = [255, 255, 255];
 var red = [255, 0, 0];
@@ -46,6 +46,7 @@ function init(){
   ctx = canvas.getContext('2d');
   pointsHTML = document.getElementById("points");
   incorrectCheckbox = document.getElementById("incorrect");
+  eCheckbox = document.getElementById("e");
   pixels = [];
   incorrectPixelList = []
   finished = false;
@@ -84,13 +85,13 @@ function render(){
 	drawLine(y1,x1,y2,x2);
     drawPixel(y1, x1);
     drawPixel(y2, x2);
-	if(!finished)
+	if(!finished && eCheckbox.checked)
       drawError(oldY, x, oldY+ystep, x, oldY+oldE*ystep/dx, x);
   } else {
     drawLine(x1,y1,x2,y2);
     drawPixel(x1, y1);
     drawPixel(x2, y2);
-	if(!finished)
+	if(!finished && eCheckbox.checked)
       drawError(x, oldY, x, oldY+ystep, x, oldY+oldE*ystep/dx);
   }
   
