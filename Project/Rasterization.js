@@ -261,16 +261,27 @@ function drawError(x1, y1, x2, y2, ex, ey){
 }
 
 function createNewTri(){
-  tri[0] = Math.floor(Math.random()*15);
-  tri[1] = Math.floor(Math.random()*10);
   do {
-      tri[2] = Math.floor(Math.random()*15);
+      tri[0] = Math.floor(Math.random()*15);
+      tri[1] = Math.floor(Math.random()*10);
+	  tri[2] = Math.floor(Math.random()*15);
       tri[3] = Math.floor(Math.random()*10);
-  } while(tri[0] == tri[2] && tri[1] == tri[3]);
-  do {
-      tri[4] = Math.floor(Math.random()*15);
+	  tri[4] = Math.floor(Math.random()*15);
       tri[5] = Math.floor(Math.random()*10);
-  } while(tri[0] == tri[4] && tri[1] == tri[5] && tri[2] == tri[4] && tri[3] == tri[5]);
+  } while(checkAngles());
+}
+
+function checkAngles(){
+  var a = Math.sqrt((tri[0]-tri[2])*(tri[0]-tri[2]) + (tri[1]-tri[3])*(tri[1]-tri[3])); // side 01
+  var b = Math.sqrt((tri[2]-tri[4])*(tri[2]-tri[4]) + (tri[3]-tri[5])*(tri[3]-tri[5])); // side 12
+  var c = Math.sqrt((tri[4]-tri[0])*(tri[4]-tri[0]) + (tri[5]-tri[1])*(tri[5]-tri[1])); // side 20
+  var A = Math.acos((-a*a + b*b + c*c) / (2*b*c)); // angle 2
+  var B = Math.acos((a*a - b*b + c*c) / (2*a*c)); // angle 0
+  var C = Math.acos((a*a + b*b - c*c) / (2*a*b)); // angle 1
+  if(A > 0.6 && B > 0.6 && C > 0.6)
+	return false;
+  else
+	return true;
 }
 
 function drawTriangle(x0, y0, x1, y1, x2, y2){

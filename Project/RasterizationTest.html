@@ -9,9 +9,13 @@
       Your browser does not support HTML5! Upgrade now, you neanderthal!
     </canvas>
 	<div style="float: center-right; padding-left: 640px; height: 400px;">
-	  <h3>Choose which blue pixel will be drawn</h3>
+	  <h3>Choose which pixel will be drawn</h3>
+	  Pick an type: <select id = "type" onclick="checkType();">
+        <option value="line">Line</option>
+		<option value="tri">Triangle</option>
+      </select>
 	  <p id = "points"></p>
-	  <p><button id="retry" onclick="init();">Try Again</button></p>
+	  <p><button id="retry" onclick="checkType();">Try Again</button></p>
 	  <p><input type="checkbox" id="incorrect" onclick="render();" checked>Show incorrect pixels</input></p>
 	  <p><input type="checkbox" id="e" onclick="render();" checked>Show error</p>
 	</div>
